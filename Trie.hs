@@ -21,24 +21,31 @@ palabraNarbol :: [Char] -> Arbol
 palabraNarbol [] = Hoja
 palabraNarbol (x:xs) = Flor x [palabraNarbol xs]
 
--- Funcion auxiliar que va agragando letras dentro de las ramas del arbol.
+-- Funcion auxiliar que va agragando letras dentro de los palos del arbol.
 brote :: [Char] -> [Arbol] -> [Arbol]
 brote [] arbol = arbol
 brote [x] arbol = case arbol of
 	[Hoja] -> [Hoja, Flor x [Hoja]]
-	[Flor y [rama]] -> if x == y then arbol else arbol ++ brote [x] [Hoja]
+	[Flor y [palo]] -> if x == y then arbol else arbol ++ brote [x] [Hoja]
 brote (x:xs) arbol = case arbol of
 	[Hoja] -> [Hoja, (palabraNarbol (x:xs))]
-	[Flor y [rama]] -> if x == y then brote xs [rama] else arbol ++ brote (x:xs) [Hoja]
+	[Flor y [palo]] -> if x == y then brote xs [palo] else arbol ++ brote (x:xs) [Hoja]
 
--- Funcion auxiliar que inserta una palabra en una rama del arbol.
+-- Funcion auxiliar que inserta una palabra en una palo del arbol.
 nuevoBrote :: [Char] -> [Arbol] -> [Arbol]
 nuevoBrote [] arbol = arbol
 nuevoBrote [x] arbol = case arbol of
 	[Hoja] -> brote [x] [Hoja]
-	[Flor y [rama]] -> if x == y then [Flor y (nuevoBrote [] [rama])] else brote [x] arbol
+	[Flor y [palo]] -> if x == y then [Flor y (nuevoBrote [] [palo])] else brote [x] arbol
 nuevoBrote (x:xs) arbol = case arbol of
 	[Hoja] -> brote (x:xs) arbol
-	[Flor y [rama]] -> if x == y then [Flor y (nuevoBrote xs [rama])] else arbol ++ [palabraNarbol (x:xs)]
+	[Flor y [palo]] -> if x == y then [Flor y (nuevoBrote xs [palo])] else arbol ++ [palabraNarbol (x:xs)]
+
+-- Funcion auxiliar que inserta una palabra al arbol.
+rama :: String -> Arbol -> Arbol
+rama [] Hoja = error "Necesito una Raiz."
+rama [] (Flor x palo) = error "Necesito una Raiz."
+rama (x:xs) (Raiz [Hoja]) = Raiz [(palabraNarbol (x:xs))]
+rama (x:xs) (Raiz [tronco]) = Raiz (nuevoBrote (x:xs) [tronco])
 
 {- 							Seccion de arboles de prueba 						-}
