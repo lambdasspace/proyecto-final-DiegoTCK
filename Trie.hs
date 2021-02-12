@@ -39,6 +39,6 @@ nuevoBrote [x] arbol = case arbol of
 	[Flor y [rama]] -> if x == y then [Flor y (nuevoBrote [] [rama])] else brote [x] arbol
 nuevoBrote (x:xs) arbol = case arbol of
 	[Hoja] -> brote (x:xs) arbol
-	[Flor y [rama]] -> if x == y then [Flor y (nuevoBrote xs [rama])] else brote (x:xs) arbol
+	[Flor y [rama]] -> if x == y then [Flor y (nuevoBrote xs [rama])] else arbol ++ [palabraNarbol (x:xs)]
 
 {- 							Seccion de arboles de prueba 						-}
