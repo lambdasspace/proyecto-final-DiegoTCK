@@ -12,7 +12,8 @@ data Arbol = Raiz [Arbol] | Flor Char [Arbol] | Hoja deriving(Eq, Show)
 
 -- Funcion que construye el arbol.
 semilla :: [String] -> Arbol
-semilla = error "Todavia no lo implemento."
+semilla [] = Hoja
+semilla lista = pimpollo lista (Raiz [Hoja])
 
 {- 							Seccion de funciones auxiliares 						-}
 
@@ -58,7 +59,7 @@ brote (x:xs) arbol = case arbol of
 				then brote xs [y] ++ ys
 				else brote (x:xs) ys
 
--- Funcion auxiliar que inserta una palabra en una palo del arbol.
+-- Funcion auxiliar que inserta una palabra en un palo del arbol.
 nuevoBrote :: [Char] -> [Arbol] -> [Arbol]
 nuevoBrote [] arbol = arbol
 nuevoBrote [x] arbol = case arbol of
@@ -95,10 +96,12 @@ nuevoBrote (x:xs) arbol = case arbol of
 rama :: String -> Arbol -> Arbol
 rama [] Hoja = error "Necesito una Raiz."
 rama [] (Flor x palo) = error "Necesito una Raiz."
-rama (x:xs) (Raiz [tronco]) = case tronco of
-	Hoja -> Raiz [(palabraNarbol (x:xs))]
-	Flor y [palo] -> case palo of
-		Hoja -> Raiz (nuevoBrote (x:xs) [tronco])
-		Flor z [palito] -> Raiz (nuevoBrote (x:xs) [tronco])
+rama (x:xs) (Raiz [Hoja]) = Raiz [(palabraNarbol (x:xs))]
+rama (x:xs) (Raiz tronco) = Raiz (nuevoBrote (x:xs) tronco)
+
+-- Funcion auxiliar que inserta palabras dado un arbol.
+pimpollo :: [String] -> Arbol -> Arbol
+pimpollo [] arbol = arbol
+pimpollo (x:xs) (Raiz tronco) = pimpollo xs (rama x (Raiz tronco))
 
 {- 							Seccion de arboles de prueba 						-}
