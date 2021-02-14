@@ -1,11 +1,15 @@
-Stardew Valley es un videojuego indie de simulación de granja desarrollado por Eric "ConcernedApe" Barone y publicado por Chucklefish Games.
-El juego se lanzó en primer lugar para Windows el 26 de febrero de 2016, y luego para los sistemas operativos OS X y Linux.
+Stardew Valley es un videojuego indie de simulacion de granja desarrollado por Eric Barone
+y publicado por Chucklefish Games. El juego se lanzo en primer lugar para Windows el 26
+de febrero de 2016, y luego para los sistemas operativos OS X y Linux.
 
-En Stardew Valley, el jugador toma el rol de un personaje que se encuentra atrapado en un trabajo de oficina, para escapar de él se va a
-vivir a la granja de su abuelo, la cual se encuentra en ruinas. La granja se encuentra ubicada en Pueblo Pelícano. El jugador controla las
-acciones del personaje, utilizando energía al realizar acciones como regar los cultivos o minar, entre muchos otros. El tiempo y la energía
-utilizada para realizar las acciones dependen del nivel que el personaje cuente en dichas actividades, las cuales aumentan con el tiempo al
-repetir la tarea una y otra vez.
+En Stardew Valley, el jugador toma el rol de un personaje que se encuentra atrapado en 
+un trabajo de oficina, para escapar de el se va a vivir a la granja de su abuelo, la cual 
+se encuentra en ruinas. La granja se encuentra ubicada en Pueblo Pelicano. El jugador
+controla las acciones del personaje, utilizando energia al realizar acciones como regar
+los cultivos o minar, entre muchos otros. El tiempo y la energia utilizada para realizar
+las acciones dependen del nivel que el personaje cuente en dichas actividades, las cuales
+aumentan con el tiempo al repetir la tarea una y otra vez.
 
-El juego también cuenta con un carácter social al poder relacionarse con los vecinos del lugar y lograr entablar una amistad e incluso contraer
-matrimonio con algunos de los personajes solteros del juego.
+El juego tambien cuenta con un caracter social al poder relacionarse con los vecinos del
+lugar y lograr entablar una amistad e incluso contraer matrimonio con algunos de los
+personajes solteros del juego.
