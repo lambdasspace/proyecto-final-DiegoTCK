@@ -44,3 +44,16 @@ cargaTxt :: IO [String]
 cargaTxt = do { contenido <- readFile sv;
 			  	return $ words contenido;
 			  }
+
+-- Funcion que construye el arbol del diccionario.
+dict :: IO Arbol
+dict = do { putStr ("Cargando el diccionario." ++ diccionario ++ "\n");
+			contenedor <- (readFile diccionario);
+			let palabras = (lines contenedor) in do {
+				putStr (show (length palabras));
+				putStr " palabras leidas\n";
+				let abc = semilla palabras in do {
+					return abc;
+				}
+			}
+		  }
