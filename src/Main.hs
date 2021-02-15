@@ -57,3 +57,11 @@ dict = do { putStr ("Cargando el diccionario." ++ diccionario ++ "\n");
 				}
 			}
 		  }
+
+-- Funcion que agrega una nueva palabra al diccionario.
+nuevaP :: IO ()
+nuevaP = do { putStr "\nInserta la nueva palabra: ";
+			  cadena <- getLine;
+			  appendFile diccionario ("\n" ++ cadena);
+			  putStr "\nPalabra guardada en el Diccionario local.";
+			}
