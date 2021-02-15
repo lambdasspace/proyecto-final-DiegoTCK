@@ -1,6 +1,7 @@
 module Main where
 
 import System.IO
+import Data.List
 import Data.Char
 import Trie
 
@@ -8,36 +9,38 @@ import Trie
 diccionario :: FilePath
 diccionario = "diccionario.txt"
 
+-- fichero del texto de prueba.
+sv :: FilePath
+sv = "Texto_prueba.txt"
+
 -- Funcion que nos dice si una unica palabra esta en el diccionario.
-buscaPalabra :: [Char] -> [Arbol] -> Bool
-buscaPalabra [] arbol = True
-buscaPalabra [x] arbol = case arbol of
-	[Hoja] -> False-- Funcion que nos dice si una unica palabra esta en el diccionario.
-buscaPalabra :: [Char] -> [Arbol] -> Bool
-buscaPalabra [] arbol = True
-buscaPalabra [x] arbol = case arbol of
+buscapalabra :: [Char] -> [Arbol] -> Bool
+buscapalabra [] arbol = True
+buscapalabra [x] arbol = case arbol of
 	[Hoja] -> False
 	[Flor y lista] -> case lista of
 		[Hoja] -> if x == y then True else False
 		[Flor z subl] -> False
-		(a:as) -> if x == y && hayHoja (a:as) then True else buscaPalabra [x] [Flor y as]
-	(a:as) -> if esFlor x a then buscaPalabra [x] [a] else False || buscaPalabra [x] as
-buscaPalabra (a:as) arbol = case arbol of
+		(a:as) -> if x == y && hayHoja (a:as) then True else buscapalabra [x] [Flor y as]
+	(a:as) -> if esFlor x a then buscapalabra [x] [a] else False || buscapalabra [x] as
+buscapalabra (a:as) arbol = case arbol of
 	[Hoja] -> False
 	[Flor x lista] -> case lista of
-		[Hoja] -> if a == x then buscaPalabra as [Hoja] else False
-		[Flor y subl] -> if a == x then True && buscaPalabra as lista else False
-		(b:bs) -> if a == x then buscaPalabra as [b] || buscaPalabra as lista else False
-	(x:xs) -> if esFlor a x then buscaPalabra as [x] else False || buscaPalabra (a:as) xs
-	[Flor y lista] -> case lista of
-		[Hoja] -> if x == y then True else False
-		[Flor z subl] -> False
-		(a:as) -> if x == y && hayHoja (a:as) then True else buscaPalabra [x] [Flor y as]
-	(a:as) -> if esFlor x a then buscaPalabra [x] [a] else False || buscaPalabra [x] as
-buscaPalabra (a:as) arbol = case arbol of
-	[Hoja] -> False
-	[Flor x lista] -> case lista of
-		[Hoja] -> if a == x then buscaPalabra as [Hoja] else False
-		[Flor y subl] -> if a == x then True && buscaPalabra as lista else False
-		(b:bs) -> if a == x then buscaPalabra as [b] || buscaPalabra as lista else False
-	(x:xs) -> if esFlor a x then buscaPalabra as [x] else False || buscaPalabra (a:as) xs
+		[Hoja] -> if a == x then buscapalabra as [Hoja] else False
+		[Flor y subl] -> if a == x then True && buscapalabra as lista else False
+		(b:bs) -> if a == x then buscapalabra as [b] || buscapalabra as lista else False
+	(x:xs) -> if esFlor a x then buscapalabra as [x] else False || buscapalabra (a:as) xs
+
+-- Funcion que nos dice si hay hojas en una lista
+hayHoja :: [Arbol] -> Bool
+hayHoja [] = False
+hayHoja arbol = case arbol of
+	[Hoja] -> True
+	[Flor x (a:as)] -> hayHoja [a] && hayHoja as
+	(a:as) -> hayHoja [a]
+
+-- Funcion que carga el archivo de texto que vamos a usar.
+cargaTxt :: IO [String]
+cargaTxt = do { contenido <- readFile sv;
+			  	return $ words contenido;
+			  }
