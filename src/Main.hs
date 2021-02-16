@@ -56,9 +56,22 @@ cargaTxt = do { contenido <- readFile sv;
 			  	return $ words contenido;
 			  }
 
+-- Funcion que nos muestra la lista de las palabras del texto cargado
+
+
+-- Funcion que nos muestra todas las palabras que no se encuentran en el diccionario.
+nPalabras :: Resultado -> IO ()
+nPalabras [] = putStr ""
+nPalabras (x:xs) = do { putStr $ "\n" ++ x;
+						nPalabras xs;
+					  }
+
+-- El diccionario en arbol.
+ 
+
 -- Funcion que construye el arbol del diccionario.
 dict :: IO Arbol
-dict = do { putStr ("Cargando el diccionario." ++ diccionario ++ "\n");
+dict = do { putStr ("Cargando el diccionario.\n");
 			contenedor <- (readFile diccionario);
 			let palabras = (lines contenedor) in do {
 				putStr (show (length palabras));
@@ -74,5 +87,37 @@ nuevaP :: IO ()
 nuevaP = do { putStr "\nInserta la nueva palabra: ";
 			  cadena <- getLine;
 			  appendFile diccionario ("\n" ++ cadena);
-			  putStr "\nPalabra guardada en el Diccionario local.";
+			  putStr "\nPalabra guardada en el Diccionario local.\n";
 			}
+
+-- Funcion que nos regresa la lista de las palabras nuevas en formato IO.
+busquedaIO :: Resultado -> IO ()
+busquedaIO [] = putStr "0"
+busquedaIO (x:xs) = putStr (show (length (x:xs)))
+
+-- Funcion que nos muestra un menu pequeño.
+miniM :: IO Char
+miniM = do { putStr "\n\n¿Que te gustaria hacer?\n";
+			 putStr "a) Agregar una nueva palabra.\n";
+			 putStr "b) Salir del programa.\n";
+			 putStr "\nOpcion: ";
+			 opcion <- getChar;
+			 return opcion
+		   }
+
+-- Funcion que da el comportamiento de las opciones dadas en el menu.
+opciones :: Char -> IO ()
+opciones 'a' = nuevaP
+opciones 'b' = putStr "\n\nBye bye...\n"
+opciones _ = putStr "\n\nOpcion invalida.\n\n"
+
+-- Funcion main
+main :: IO ()
+main = do { d <- dict;
+				p <- cargaTxt;
+				putStr "Las siguientes palabras no estan correctas o son nuevas.\n";
+				nPalabras (busqueda p d);
+					m <- miniM;
+					opciones m;
+					if m == 'b' then putStr "\nHasta pronto.\n" else main;
+		  }
