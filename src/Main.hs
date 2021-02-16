@@ -5,6 +5,8 @@ import Data.List
 import Data.Char
 import Trie
 
+type Resultado = [String]
+
 -- Importando el diccionario.
 diccionario :: FilePath
 diccionario = "diccionario.txt"
@@ -17,10 +19,11 @@ sv = "Texto_prueba.txt"
 buscapalabra :: [Char] -> [Arbol] -> Bool
 buscapalabra [] arbol = True
 buscapalabra [x] arbol = case arbol of
-	[Hoja] -> False
+	[Hoja] -> True
 	[Flor y lista] -> case lista of
 		[Hoja] -> if x == y then True else False
 		[Flor z subl] -> False
+
 		(a:as) -> if x == y && hayHoja (a:as) then True else buscapalabra [x] [Flor y as]
 	(a:as) -> if esFlor x a then buscapalabra [x] [a] else False || buscapalabra [x] as
 buscapalabra (a:as) arbol = case arbol of
@@ -29,7 +32,7 @@ buscapalabra (a:as) arbol = case arbol of
 		[Hoja] -> if a == x then buscapalabra as [Hoja] else False
 		[Flor y subl] -> if a == x then True && buscapalabra as lista else False
 		(b:bs) -> if a == x then buscapalabra as [b] || buscapalabra as lista else False
-	(x:xs) -> if esFlor a x then buscapalabra as [x] else False || buscapalabra (a:as) xs
+	(x:xs) -> if esFlor a x then buscapalabra (a:as) [x] else buscapalabra (a:as) xs
 
 -- Funcion que nos dice si hay hojas en una lista
 hayHoja :: [Arbol] -> Bool
@@ -38,6 +41,14 @@ hayHoja arbol = case arbol of
 	[Hoja] -> True
 	[Flor x (a:as)] -> hayHoja [a] && hayHoja as
 	(a:as) -> hayHoja [a]
+
+-- Funcion que nos muestra el resultado de buscar todas las palabras del texto.
+busqueda :: [String] -> Arbol -> Resultado
+busqueda [] arbol = []
+busqueda [x] (Raiz tronco) = if buscapalabra x tronco then [] else [x]
+busqueda (x:xs) (Raiz tronco) =	if buscapalabra x tronco
+								then busqueda xs (Raiz tronco)
+								else [x] ++ (busqueda xs (Raiz tronco))
 
 -- Funcion que carga el archivo de texto que vamos a usar.
 cargaTxt :: IO [String]
